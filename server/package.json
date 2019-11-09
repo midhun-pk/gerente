@@ -1,0 +1,14 @@
+{
+  "name": "gerente",
+  "version": "1.0.0",
+  "description": "App to manage every day tasks.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Midhun PK",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
