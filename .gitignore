@@ -26,3 +26,6 @@
 
 # git scripts
 git-script.sh
+
+#environments
+/server/.env
