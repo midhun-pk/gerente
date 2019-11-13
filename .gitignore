@@ -6,7 +6,7 @@
 
 # dependencies
 /node_modules
-/server/node_modules
+/server/services/*/node_modules
 
 # IDEs and editors
 /.idea

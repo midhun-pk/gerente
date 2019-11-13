@@ -1,9 +1,9 @@
 const config = {
     app: {
-        title: 'Gerente',
-        description: "App to manage every day tasks."
+        title: 'Comments API',
+        description: "Microservice to manage comments."
     },
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 3001,
     host: process.env.HOST || 'localhost',
     db: {
         uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/auth',
