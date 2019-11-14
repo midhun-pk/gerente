@@ -1,5 +1,5 @@
-const commentFactory = ({Id, md5, sanitize}) => {
-    return makeComment = ({
+const commentFactory = ({Id, md5, sanitize, makeSource}) => {
+    const makeComment = ({
         author,
         createdOn = Date.now(),
         id = Id.makeId(),
@@ -37,22 +37,24 @@ const commentFactory = ({Id, md5, sanitize}) => {
             throw new Error('Comment contains no usable text.')
         }
 
-        const deletedText = '.xX This element has been deleted Xx.';
+        const validSource = makeSource(source);
+        const deletedText = '.xX This comment has been deleted Xx.';
         let hash;
 
-        const getAuthor = () => getAuthor;
+        const getAuthor = () => author;
         const getCreatedOn = () => createdOn;
+        const getId = () => id;
         const getHash = () => hash || (hash = makeHash());
         const getModifiedOn = () => modifiedOn;
         const getPostId = () => postId;
         const getReplyToId = () => replyToId;
-        const getSource = () => source;
+        const getSource = () => validSource;
         const getText = () => sanitizedText;
         const isPublished = () => published;
         const isDeleted = () => sanitizedText === deletedText;
         const markDeleted = () => { 
             sanitizedText = deletedText;
-            author = deleted;
+            author = 'deleted';
         }
         const publish = () => {
             published = true;
@@ -67,6 +69,7 @@ const commentFactory = ({Id, md5, sanitize}) => {
         return Object.freeze({
             getAuthor,
             getCreatedOn,
+            getId,
             getHash,
             getModifiedOn,
             getPostId,
@@ -79,7 +82,8 @@ const commentFactory = ({Id, md5, sanitize}) => {
             publish,
             unPublish
         })
-    }; 
+    };
+    return makeComment;
 }
 
 export default commentFactory;
