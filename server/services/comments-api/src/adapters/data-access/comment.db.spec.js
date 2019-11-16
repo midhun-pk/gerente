@@ -45,6 +45,29 @@ describe('comments db', () => {
         expect(found).to.eql(comment);
     });
 
+    it('finds all comments for a post', async () => {
+        const johnsCommentOnPostA = makeFakeComment({ replyToId: null });
+        const johnsCommentOnPostB = makeFakeComment({ replyToId: null });
+        const marysCommentOnPostA = makeFakeComment({ replyToId: null, postId: johnsCommentOnPostA.postId });
+        const janesCommentOnPostA = makeFakeComment({ replyToId: null, postId: johnsCommentOnPostA.postId });
+        const janesReplyToMarysCommentOnPostA = makeFakeComment({ replyToId: marysCommentOnPostA.id, postId: johnsCommentOnPostA.postId });
+        const commentsOnPostA = [ johnsCommentOnPostA, marysCommentOnPostA, janesCommentOnPostA, janesReplyToMarysCommentOnPostA ];
+        await Promise.all(
+            [ ...commentsOnPostA, johnsCommentOnPostB ].map(
+                commentsDb.insert
+            )
+        );
+        let commentsFound = await commentsDb.findByPostId({ postId: johnsCommentOnPostA.postId, omitReplies: false });
+        commentsOnPostA.forEach(comment =>
+            expect(commentsFound).to.deep.include(comment)
+        );
+        commentsOnPostA.pop();
+        commentsFound = await commentsDb.findByPostId({ postId: johnsCommentOnPostA.postId });
+        commentsOnPostA.forEach(comment =>
+            expect(commentsFound).to.deep.include(comment)
+        );
+    });
+
     it('inserts a comment', async () => {
         const comment = makeFakeComment();
         const result = await commentsDb.insert(comment);
