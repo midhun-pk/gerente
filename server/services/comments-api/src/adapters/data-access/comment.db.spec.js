@@ -68,6 +68,34 @@ describe('comments db', () => {
         );
     });
 
+    it('finds all replies for a comment', async () => {
+        const johnsCommentOnPostA = makeFakeComment({ replyToId: null });
+        const franksReplyToJohnsCommentOnPostA = makeFakeComment({ replyToId: johnsCommentOnPostA.id, postId: johnsCommentOnPostA.postId, published: false });
+        const marysReplyToJohnsCommentOnPostA = makeFakeComment({ replyToId: johnsCommentOnPostA.id, postId: johnsCommentOnPostA.postId });
+        const janesReplyToJohnsCommentOnPostA = makeFakeComment({ replyToId: johnsCommentOnPostA.id, postId: johnsCommentOnPostA.postId });
+        const dannysReplyToMarysReplyOnPostA = makeFakeComment({ replyToId: marysReplyToJohnsCommentOnPostA.id, postId: johnsCommentOnPostA.postId });
+        await Promise.all(
+            [ johnsCommentOnPostA,
+                marysReplyToJohnsCommentOnPostA,
+                janesReplyToJohnsCommentOnPostA,
+                dannysReplyToMarysReplyOnPostA,
+                franksReplyToJohnsCommentOnPostA
+            ].map(
+                commentsDb.insert
+            )
+        );
+        const publishedCommentsFound = await commentsDb.findReplies({ commentId: johnsCommentOnPostA.id });
+        expect(publishedCommentsFound.length).to.equal(2);
+        [ marysReplyToJohnsCommentOnPostA, janesReplyToJohnsCommentOnPostA ].forEach(comment =>
+            expect(publishedCommentsFound).to.deep.include(comment)
+        );
+        const commentsFound = await commentsDb.findReplies({ commentId: johnsCommentOnPostA.id, publishedOnly: false });
+        expect(commentsFound.length).to.equal(3);
+        [ franksReplyToJohnsCommentOnPostA, marysReplyToJohnsCommentOnPostA, janesReplyToJohnsCommentOnPostA ].forEach(comment =>
+            expect(commentsFound).to.deep.include(comment)
+        );
+    });
+
     it('inserts a comment', async () => {
         const comment = makeFakeComment();
         const result = await commentsDb.insert(comment);
