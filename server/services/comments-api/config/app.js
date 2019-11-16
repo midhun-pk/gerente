@@ -1,25 +1,24 @@
 /**
  * Module dependencies
  */
-const express = require('./express');
-const mongoose = require('./mongoose');
-const config = require('./config');
+import init from 'express';
+import makeDb from './make-db';
+import config from './config';
 
 const start = async () => {
-    try {
-        await mongoose.connect();
-        const app = express.init();
-        app.listen(config.port, config.host, () => {
-            const server = 'http://' + config.host + ':' + config.port;
-            console.log(config.app.title);
-            console.log('Server         : ' + server);
-            console.log('Database       : ' + config.db.uri);
-        });
-    } catch(error) {
+	try {
+        const db = await makeDb();
+		const app = init();
+		app.listen(config.port, config.host, () => {
+			const server = 'http://' + config.host + ':' + config.port;
+			console.log(config.app.title);
+			console.log('Server         : ' + server);
+			console.log('Database       : ' + db.databaseName);
+		});
+	} catch( error ) {
         console.log(error);
-    }
+        process.exit();
+	}
 };
 
-module.exports = {
-    start
-};
+export default start;

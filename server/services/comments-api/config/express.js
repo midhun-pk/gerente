@@ -1,9 +1,9 @@
 /**
  * Module dependencies
  */
-const express = require('express'),
-      bodyParser = require('body-parser'),
-      config = require('./config');
+import express from 'express';
+import bodyParser  from 'body-parser';
+import config from './config';
 
 /*
  * Initialize local variables.
@@ -13,7 +13,7 @@ let initLocalVariables = (app) => {
     app.locals.description = config.app.description;
     app.locals.host = config.host;
     app.locals.port = config.port;
-}
+};
 
 
 /*
@@ -24,7 +24,7 @@ let initMiddleware = (app) => {
         extended: true
     }));
     app.use(bodyParser.json());
-}
+};
 
 /*
  * Initialize express
@@ -36,6 +36,4 @@ const init = () => {
     return app;
 };
 
-module.exports = {
-    init
-};
+export default init;

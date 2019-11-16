@@ -1,6 +1,6 @@
 /**
  * Module dependencies
  */
-const app = require('./config/app');
+import start from './config/app';
 
-app.start();
+start();
