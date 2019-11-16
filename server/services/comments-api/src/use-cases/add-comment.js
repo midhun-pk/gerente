@@ -8,7 +8,7 @@ const addCommentFactory = ({ commnetsDb }) => {
             return exists;
         }
         const commentSource = comment.getSource();
-        return commnetsDb.insertOne({
+        return commnetsDb.insert({
             author: comment.getAuthor(),
             createdOn: comment.getCreatedOn(),
             hash: comment.gethash(),
