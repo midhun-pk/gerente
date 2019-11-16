@@ -9,20 +9,22 @@ describe('comments db', () => {
     before(async () => {
         await makeDb();
     });
-  
+
     beforeEach(() => {
-      commentsDb = makeCommentsDb({ makeDb });
+        commentsDb = makeCommentsDb({ makeDb });
     });
 
     it('lists comments', async () => {
         const inserts = await Promise.all(
-          [ makeFakeComment(), makeFakeComment(), makeFakeComment() ].map(
-            commentsDb.insert
-          )
+            [ makeFakeComment(), makeFakeComment(), makeFakeComment() ].map(
+                commentsDb.insert
+            )
         );
         const commentsFound = await commentsDb.findAll();
         expect(inserts.length).to.equal(3);
-        inserts.forEach(insert => expect(commentsFound).to.deep.include(insert));
+        inserts.forEach(insert =>
+            expect(commentsFound).to.deep.include(insert)
+        );
     });
 
     it('finds a comment by id', async () => {
@@ -43,13 +45,13 @@ describe('comments db', () => {
         expect(found).to.eql(comment);
     });
 
-    it('inserts a comment', async() => {
+    it('inserts a comment', async () => {
         const comment = makeFakeComment();
         const result = await commentsDb.insert(comment);
-        expect(result).to.eql(comment); 
+        expect(result).to.eql(comment);
     });
 
-    it('updates a comment', async() => {
+    it('updates a comment', async () => {
         const comment = makeFakeComment();
         let result = await commentsDb.update(comment);
         expect(result).to.be.null;
@@ -59,7 +61,7 @@ describe('comments db', () => {
         expect(result).to.eql(comment);
     });
 
-    it('deletes a comment', async() => {
+    it('deletes a comment', async () => {
         const comment = makeFakeComment();
         let result = await commentsDb.remove(comment);
         expect(result).to.eql(0);

@@ -1,4 +1,4 @@
-import  makeComment from '../entities';
+import makeComment from '../entities';
 
 const addCommentFactory = ({ commnetsDb }) => {
     const addComment = async (commentInfo) => {
@@ -22,7 +22,7 @@ const addCommentFactory = ({ commnetsDb }) => {
                 browser: commentSource.getBrowser(),
                 referrer: commentSource.getReferrer()
             },
-            text: comment.getText() 
+            text: comment.getText()
         });
     };
     return addComment;

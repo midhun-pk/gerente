@@ -11,10 +11,10 @@ export const client = new MongoClient(config.db.uri, config.db.options);
  * Connect to mongodb
  */
 const makeDb = async () => {
-	if (!client.isConnected()) {
-		await client.connect();
-	}
-	return client.db(config.db.name);
+    if (!client.isConnected()) {
+        await client.connect();
+    }
+    return client.db(config.db.name);
 };
 
 export default makeDb;

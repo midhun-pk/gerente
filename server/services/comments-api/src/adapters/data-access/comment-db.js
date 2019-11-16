@@ -2,7 +2,7 @@ import Id from '../../utils/Id';
 
 const makeCommentsDb = ({ makeDb }) => {
     const collectionName = 'comments';
-    
+
     const findAll = async ({ publishedOnly = true } = {}) => {
         const db = await makeDb();
         const query = publishedOnly ? { published: true } : {};
@@ -12,7 +12,7 @@ const makeCommentsDb = ({ makeDb }) => {
             ...comment
         }));
     };
-    
+
     const findById = async ({ id: _id }) => {
         const db = await makeDb();
         const query = { _id };
@@ -38,14 +38,14 @@ const makeCommentsDb = ({ makeDb }) => {
     const insert = async ({ id: _id = Id.makeId(), ...commentInfo }) => {
         const db = await makeDb();
         const result = await db.collection(collectionName).insertOne({ _id, ...commentInfo });
-        const { _id: id, ...insertedInfo } = result.ops[0];
+        const { _id: id, ...insertedInfo } = result.ops[ 0 ];
         return { id, ...insertedInfo };
     };
 
     const update = async ({ id: _id, ...commentInfo }) => {
         const db = await makeDb();
         const result = await db.collection(collectionName).updateOne({ _id }, { $set: { ...commentInfo } });
-        return result.modifiedCount > 0 ? { id: _id, ...commentInfo }: null;
+        return result.modifiedCount > 0 ? { id: _id, ...commentInfo } : null;
     };
 
     const remove = async ({ id: _id }) => {

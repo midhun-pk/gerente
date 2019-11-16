@@ -1,32 +1,32 @@
 {
-  "name": "gerente",
-  "version": "1.0.0",
-  "description": "App to manage every day tasks.",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon --exec babel-node ./index.js",
-    "test": "mocha --require @babel/register src/**/*.spec.js"
-  },
-  "author": "Midhun PK",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "cuid": "^2.1.6",
-    "express": "^4.17.1",
-    "ip-regex": "^4.1.0",
-    "mongodb": "^3.3.4",
-    "sanitize-html": "^1.20.1"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.7.0",
-    "@babel/core": "^7.7.2",
-    "@babel/node": "^7.7.0",
-    "@babel/preset-env": "^7.7.1",
-    "chai": "^4.2.0",
-    "eslint": "^6.6.0",
-    "faker": "^4.1.0",
-    "mocha": "^6.2.2",
-    "nodemon": "^1.19.4"
-  }
+    "name": "gerente",
+    "version": "1.0.0",
+    "description": "App to manage every day tasks.",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon --exec babel-node ./index.js",
+        "test": "mocha --require @babel/register src/**/*.spec.js"
+    },
+    "author": "Midhun PK",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "cuid": "^2.1.6",
+        "express": "^4.17.1",
+        "ip-regex": "^4.1.0",
+        "mongodb": "^3.3.4",
+        "sanitize-html": "^1.20.1"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.7.0",
+        "@babel/core": "^7.7.2",
+        "@babel/node": "^7.7.0",
+        "@babel/preset-env": "^7.7.1",
+        "chai": "^4.2.0",
+        "eslint": "^6.6.0",
+        "faker": "^4.1.0",
+        "mocha": "^6.2.2",
+        "nodemon": "^1.19.4"
+    }
 }

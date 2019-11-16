@@ -2,7 +2,7 @@
  * Module dependencies
  */
 import express from 'express';
-import bodyParser  from 'body-parser';
+import bodyParser from 'body-parser';
 import config from './config';
 
 /*

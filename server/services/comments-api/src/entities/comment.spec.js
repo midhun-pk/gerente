@@ -14,13 +14,13 @@ describe('comment', () => {
     it('must have valid text', () => {
         const comment = makeFakeComment({ text: null });
         expect(() => makeComment(comment)).to.throw(
-          'Comment must include at least one character of text.'
+            'Comment must include at least one character of text.'
         );
     });
     it('can be in reply to another comment', () => {
         const comment = makeFakeComment({ replyToId: 'invalid' });
         expect(() => makeComment(comment)).to.throw(
-          'If supplied. Comment must contain a valid replyToId.'
+            'If supplied. Comment must contain a valid replyToId.'
         );
         const notInReply = makeFakeComment({ replyToId: undefined });
         expect(() => makeComment(notInReply)).not.to.throw();
@@ -66,21 +66,21 @@ describe('comment', () => {
     });
     it('sanitizes its text', () => {
         const sane = makeComment({
-          ...makeFakeComment({ text: '<p>This is fine</p>' })
+            ...makeFakeComment({ text: '<p>This is fine</p>' })
         });
         const insane = makeComment({
-          ...makeFakeComment({
-            text: '<script>This is not so fine</script><p>but this is ok</p>'
-          })
+            ...makeFakeComment({
+                text: '<script>This is not so fine</script><p>but this is ok</p>'
+            })
         });
         const totallyInsane = makeFakeComment({
-          text: '<script>All your base are belong to us!</script>'
+            text: '<script>All your base are belong to us!</script>'
         });
-    
+
         expect(sane.getText()).to.be.string('<p>This is fine</p>');
         expect(insane.getText()).to.be.string('<p>but this is ok</p>');
         expect(() => makeComment(totallyInsane)).to.throw(
-          'Comment contains no usable text.'
+            'Comment contains no usable text.'
         );
     });
     it('can be marked deleted', () => {
@@ -93,14 +93,14 @@ describe('comment', () => {
     });
     it('includes a hash', () => {
         const fakeComment = {
-          author: 'Bruce Wayne',
-          text: 'I\'m batman.',
-          postId: 'cjt65art5350vy000hm1rp3s9',
-          published: true,
-          source: { ip: '127.0.0.1' }
+            author: 'Bruce Wayne',
+            text: 'I\'m batman.',
+            postId: 'cjt65art5350vy000hm1rp3s9',
+            published: true,
+            source: { ip: '127.0.0.1' }
         };
         expect(makeComment(fakeComment).getHash()).to.be.string(
-          '7bb94f070d9305976b5381b7d3e8ad8a'
+            '7bb94f070d9305976b5381b7d3e8ad8a'
         );
     });
     it('must have a source', () => {
@@ -110,15 +110,15 @@ describe('comment', () => {
     it('must have a source ip', () => {
         const noIp = makeFakeComment({ source: { ip: undefined } });
         expect(() => makeComment(noIp)).to.throw(
-          'Comment source must contain an IP.'
+            'Comment source must contain an IP.'
         );
     });
     it('can have a source browser', () => {
         const withBrowser = makeFakeComment();
         expect(
-          makeComment(withBrowser)
-            .getSource()
-            .getBrowser()
+            makeComment(withBrowser)
+                .getSource()
+                .getBrowser()
         ).to.be.string(withBrowser.source.browser);
         const withoutBrowser = makeFakeComment({ source: { ip: '127.0.0.1' } });
         expect(() => makeComment(withoutBrowser).getSource().getBrowser()).not.to.throw();
@@ -126,9 +126,9 @@ describe('comment', () => {
     it('can have a source referrer', () => {
         const withReferrer = makeFakeComment();
         expect(
-          makeComment(withReferrer)
-            .getSource()
-            .getReferrer()
+            makeComment(withReferrer)
+                .getSource()
+                .getReferrer()
         ).to.be.string(withReferrer.source.referrer);
         const withoutReferrer = makeFakeComment({ source: { ip: '127.0.0.1' } });
         expect(() => makeComment(withoutReferrer).getSource().getReferrer()).not.to.throw();
