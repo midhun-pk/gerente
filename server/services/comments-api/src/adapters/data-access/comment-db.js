@@ -48,6 +48,19 @@ const makeCommentsDb = ({ makeDb }) => {
         }));
     };
 
+    const findReplies = async ({ commentId, publishedOnly = true }) => {
+        const db = await makeDb();
+        const query = { replyToId: commentId };
+        if (publishedOnly) {
+            query.published = true;
+        }
+        const result = await db.collection(collectionName).find(query);
+        return (await result.toArray()).map(({ _id: id, ...info }) => ({
+            id,
+            ...info
+        }));
+    };
+
     const insert = async ({ id: _id = Id.makeId(), ...commentInfo }) => {
         const db = await makeDb();
         const result = await db.collection(collectionName).insertOne({ _id, ...commentInfo });
@@ -72,6 +85,7 @@ const makeCommentsDb = ({ makeDb }) => {
         findById,
         findByHash,
         findByPostId,
+        findReplies,
         insert,
         update,
         remove
