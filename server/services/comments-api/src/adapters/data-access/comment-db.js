@@ -7,9 +7,9 @@ const makeCommentsDb = ({ makeDb }) => {
         const db = await makeDb();
         const query = publishedOnly ? { published: true } : {};
         const result = await db.collection(collectionName).find(query);
-        return (await result.toArray()).map(({ _id: id, ...comment }) => ({
+        return (await result.toArray()).map(({ _id: id, ...info }) => ({
             id,
-            ...comment
+            ...info
         }));
     };
 
@@ -35,6 +35,19 @@ const makeCommentsDb = ({ makeDb }) => {
         return { id, ...info };
     };
 
+    const findByPostId = async ({ postId, omitReplies = true }) => {
+        const db = await makeDb();
+        const query = { postId };
+        if (omitReplies) {
+            query.replyToId = null;
+        }
+        const result = await db.collection(collectionName).find(query);
+        return (await result.toArray()).map(({ _id: id, ...info }) => ({
+            id,
+            ...info
+        }));
+    };
+
     const insert = async ({ id: _id = Id.makeId(), ...commentInfo }) => {
         const db = await makeDb();
         const result = await db.collection(collectionName).insertOne({ _id, ...commentInfo });
@@ -58,6 +71,7 @@ const makeCommentsDb = ({ makeDb }) => {
         findAll,
         findById,
         findByHash,
+        findByPostId,
         insert,
         update,
         remove
