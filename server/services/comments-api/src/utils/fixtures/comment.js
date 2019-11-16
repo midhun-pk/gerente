@@ -22,11 +22,11 @@ const makeFakeComment = (overrides) => {
             referrer: faker.internet.url()
         }
     };
-    comment.hash = md5(comment.text + comment.published + (comment.author || '') + (comment.postId || '') + (comment.replyToId || ''))
+    comment.hash = md5(comment.text + comment.published + (comment.author || '') + (comment.postId || '') + (comment.replyToId || ''));
     return {
         ...comment,
         ...overrides
-    }
+    };
 };
 
 export default makeFakeComment;
