@@ -2,20 +2,20 @@ module.exports = {
     env: {
         commonjs: true,
         es6: true,
-        node: true
+        node: true,
+        mongo: true,
+        mocha: true
     },
     extends: "eslint:recommended",
-    globals: {},
     parserOptions: {
-        ecmaVersion: 2018
+        ecmaVersion: 2018,
+        sourceType: "module"
     },
     rules: {
-        indent: [ "error", "tab" ],
-        "linebreak-style": [ "error", "unix" ],
-        quotes: [ "error", "double" ],
+        "linebreak-style": [ "error", "windows" ],
+        quotes: [ "error", "single" ],
         semi: [ "error", "always" ],
         "array-bracket-spacing": [ "error", "always" ],
         "object-curly-spacing": [ "error", "always" ],
-        "space-in-parens": [ "error", "always" ]
     }
 };
