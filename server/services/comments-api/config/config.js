@@ -7,7 +7,7 @@ const config = {
     host: process.env.HOST || 'localhost',
     db: {
         uri: process.env.MONGODB_URI || 'mongodb://localhost:27017',
-        name: 'gerente',
+        name: process.env.MONGODB_NAME || 'gerente',
         options: {
             useNewUrlParser: true,
             useUnifiedTopology: true
