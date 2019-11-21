@@ -1,16 +1,12 @@
 import { expect } from 'chai';
-import makeDb, { client } from '../../utils/fixtures/db';
 import makeCommentsDb from './comment-db';
 import makeFakeComment from '../../utils/fixtures/comment';
+import makeDb from '../../../test/db';
 
 describe('comments db', () => {
     let commentsDb;
 
-    before(async () => {
-        await makeDb();
-    });
-
-    beforeEach(() => {
+    before(() => {
         commentsDb = makeCommentsDb({ makeDb });
     });
 
@@ -121,9 +117,4 @@ describe('comments db', () => {
         expect(result).to.eql(1);
     });
 
-    after(async () => {
-        const db = await makeDb();
-        await db.dropDatabase();
-        await client.close();
-    });
 });
