@@ -1,17 +1,17 @@
 import makeComment from '../entities';
 
-const addCommentFactory = ({ commnetsDb }) => {
+const makeAddComment = ({ commentsDb }) => {
     const addComment = async (commentInfo) => {
         const comment = makeComment(commentInfo);
-        const exists = await commnetsDb.findByHash({ hash: comment.getHash() });
+        const exists = await commentsDb.findByHash({ hash: comment.getHash() });
         if (exists) {
             return exists;
         }
         const commentSource = comment.getSource();
-        return commnetsDb.insert({
+        return await commentsDb.insert({
             author: comment.getAuthor(),
             createdOn: comment.getCreatedOn(),
-            hash: comment.gethash(),
+            hash: comment.getHash(),
             id: comment.getId(),
             modifiedOn: comment.getModifiedOn(),
             postId: comment.getPostId(),
@@ -28,4 +28,4 @@ const addCommentFactory = ({ commnetsDb }) => {
     return addComment;
 };
 
-export default addCommentFactory;
+export default makeAddComment;
