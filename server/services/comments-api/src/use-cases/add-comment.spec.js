@@ -19,4 +19,13 @@ describe('Add comment', () => {
         expect(inserted).to.eql(newComment);
     });
 
+    it('is idempotent', async () => {
+        const newComment = makeFakeComment();
+        const addComment = makeAddComment({ commentsDb });
+        const insertOne = await addComment(newComment);
+        const insertTwo = await addComment(newComment);
+        expect(insertOne.id).not.to.be.undefined;
+        expect(insertOne.id).to.equal(insertTwo.id);
+    });
+
 });
