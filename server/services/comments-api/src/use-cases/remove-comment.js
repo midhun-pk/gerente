@@ -15,11 +15,17 @@ const makeRemoveComment = ({ commentsDb }) => {
         if (await hasReplies(commentToDelete)) {
             return softDelete(commentToDelete);
         }
+
+        if (await isOnlyReplyOfDeletedParent(commentToDelete)) {
+            return deleteCommentAndParent(commentToDelete);
+        }
+
+        return hardDelete(commentToDelete);
     };
 
     const deleteNothing = () => {
         return {
-            deleted: 0,
+            deletedCount: 0,
             softDelete: false,
             message: 'Comment not found, nothing to delete.'
         };
@@ -45,9 +51,45 @@ const makeRemoveComment = ({ commentsDb }) => {
         });
 
         return {
-            deleted: 1,
+            deletedCount: 1,
             softDelete: true,
             message: 'Comment has replies. Soft delted.'
+        };
+    };
+
+    const isOnlyReplyOfDeletedParent = async (comment) => {
+        if (!comment.replyToId) {
+            return false;
+        }
+        const parent = await commentsDb.findById({ id: comment.replyToId });
+        if (parent && makeComment(parent).isDeleted()) {
+            const replies = await commentsDb.findReplies({
+                commentId: parent.id,
+                publishedOnly: false
+            });
+            return replies.length === 1;
+        }
+        return false;
+    };
+
+    const deleteCommentAndParent = async (comment) => {
+        await Promise.all([
+            commentsDb.remove(comment),
+            commentsDb.remove({ id: comment.replyToId })
+        ]);
+        return {
+            deletedCount: 2,
+            softDelete: false,
+            message: 'Comment and parent deleted.'
+        };
+    };
+
+    const hardDelete = async (comment) => {
+        await commentsDb.remove(comment);
+        return {
+            deletedCount: 1,
+            softDelete: false,
+            message: 'Comment deleted.'
         };
     };
 
