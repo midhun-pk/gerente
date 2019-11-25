@@ -8,7 +8,7 @@ import makeDb from '../../test/db';
 describe('Add comment', () => {
     let commentsDb;
 
-    before(async () => {
+    before(() => {
         commentsDb = makeCommentsDb({ makeDb });
     });
 
