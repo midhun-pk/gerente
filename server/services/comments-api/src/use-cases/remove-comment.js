@@ -53,7 +53,7 @@ const makeRemoveComment = ({ commentsDb }) => {
         return {
             deletedCount: 1,
             softDelete: true,
-            message: 'Comment has replies. Soft delted.'
+            message: 'Comment has replies. Soft deleted.'
         };
     };
 
