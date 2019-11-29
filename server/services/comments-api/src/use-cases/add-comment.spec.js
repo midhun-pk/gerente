@@ -5,7 +5,7 @@ import makeAddComment from './add-comment';
 import makeDb from '../../test/db';
 
 
-describe('Add comment', () => {
+describe('add comment', () => {
     let commentsDb;
 
     before(() => {
