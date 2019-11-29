@@ -26,4 +26,9 @@ describe('edit comment', () => {
         return expect(editComment(comment)).rejectedWith('You must supply a text.');
     });
 
+    it('must not upsert a comment', () => {
+        const editComment = makeEditComment({ commentsDb });
+        const comment = makeFakeComment();
+        return expect(editComment(comment)).rejectedWith('Comment not found.');
+    });
 });
