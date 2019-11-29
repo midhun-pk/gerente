@@ -16,7 +16,13 @@ const makeEditComment = ({ commentsDb }) => {
         if (comment.getHash() === existing.hash) {
             return existing;
         }
-        const updated = await commentsDb.update(comment);
+        const updated = await commentsDb.update({
+            id: comment.getId(),
+            published: comment.isPublished(),
+            modifiedOn: comment.getModifiedOn(),
+            text: comment.getText(),
+            hash: comment.getHash()
+        });
         return { ...existing, ...updated };
     };
 

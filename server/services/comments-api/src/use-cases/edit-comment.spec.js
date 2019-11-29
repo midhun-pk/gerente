@@ -31,4 +31,15 @@ describe('edit comment', () => {
         const comment = makeFakeComment();
         return expect(editComment(comment)).rejectedWith('Comment not found.');
     });
+
+    it('modifies a comment', async () => {
+        const editComment = makeEditComment({ commentsDb });
+        const comment = makeFakeComment();
+        const inserted = await commentsDb.insert(comment);
+        const edited = await editComment({ ...comment, text: 'changed' });
+        expect(edited.text).to.be.string('changed');
+        expect(inserted.modifiedOn).to.not.eql(edited.modifiedOn);
+        expect(edited.hash).not.to.be.undefined;
+        expect(inserted.hash).to.not.eql(edited.hash);
+    });
 });
