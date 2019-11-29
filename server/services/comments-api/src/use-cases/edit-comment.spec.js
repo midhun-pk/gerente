@@ -14,9 +14,16 @@ describe('edit comment', () => {
         commentsDb = makeCommentsDb({ makeDb });
     });
 
-    it('must include an id', async () => {
+    it('must include an id', () => {
         const editComment = makeEditComment({ commentsDb });
         const comment = makeFakeComment({ id: undefined });
-        return expect(editComment(comment)).to.be.rejectedWith('You must supply an id.');
+        return expect(editComment(comment)).rejectedWith('You must supply an id.');
     });
+
+    it('must include a text', () => {
+        const editComment = makeEditComment({ commentsDb });
+        const comment = makeFakeComment({ text: undefined });
+        return expect(editComment(comment)).rejectedWith('You must supply a text.');
+    });
+
 });
